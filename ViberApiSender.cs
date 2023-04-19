@@ -35,8 +35,6 @@ namespace ViberWalkTracker
             httpClient.DefaultRequestHeaders.Add("X-Viber-Auth-Token", token);
 
             var response = await httpClient.PostAsJsonAsync(apiUrl, message);
-            var success = response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
         }
     }
 }
