@@ -8,7 +8,7 @@ namespace ViberWalkTracker
     {
         public MappingProfile()
         {
-            CreateMap<WalkDAL, WalkDTO>();
+            CreateMap<WalkDAL, WalkDTO>().ForMember(to => to.Duration, cf => cf.MapFrom(src => (src.End_time - src.Start_time).Minutes));
         }
     }
 }

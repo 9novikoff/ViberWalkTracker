@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ViberWalkTracker.BLL;
-using ViberWalkTracker.DAL;
+using ViberWalkTracker.ViberModels.DeliveryModels;
+using ViberWalkTracker.ViberModels.ReceivedModels;
 
 namespace ViberWalkTracker.Controllers
 {
@@ -9,17 +12,20 @@ namespace ViberWalkTracker.Controllers
     public class WalkTrakerController : ControllerBase
     {
         private WalkService _walkService;
-        public WalkTrakerController(WalkService walkService)
+        private ViberApiService _viberApiService;
+        public WalkTrakerController(WalkService walkService, ViberApiService viberApiService)
         {
             _walkService = walkService;
+            _viberApiService = viberApiService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] object response)
         {
-            string imei = "359339077003915";
-            return Ok(await _walkService.GetAllWalksByIMEI(imei));
+            await _viberApiService.ProcessReceivedObject(response);
+            return Ok();
         }
+
 
     }
 }
